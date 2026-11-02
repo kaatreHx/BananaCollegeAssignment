@@ -43,7 +43,10 @@ class BananaClient:
         image_url = str(payload.get("question", "")).strip()
         solution = payload.get("solution")
 
-        
+        if not image_url.startswith(("http://", "https://")):
+            raise ValueError("Puzzle image URL is missing or invalid.")
+        if isinstance(solution, bool):
+            raise ValueError("Puzzle solution is invalid.")
         try:
             solution_int = int(solution)
         except (TypeError, ValueError) as exc:
